@@ -71,8 +71,11 @@ Any additional settings you want to define per index can be included in the `sta
     'searchables' => ['collection:articles'],
     'fields' => ['id', 'title', 'url', 'type', 'content', 'locale'],
     'settings' => [
-	    'schema' => [
-		    /* pass an optional schema, see: https://typesense.org/docs/26.0/api/collections.html#with-pre-defined-schema
+        'schema' => [
+            /*
+                Pass an optional schema, see the Typesense documentation for more info:
+                https://typesense.org/docs/26.0/api/collections.html#with-pre-defined-schema
+            */
             'fields' => [
                 [
                   'name'  => 'company_name',
@@ -87,8 +90,8 @@ Any additional settings you want to define per index can be included in the `sta
                   'type'  => 'string',
                   'facet' => true
                 ], 
-            ], */
-	    ],
+            ],
+        ],
     ],
 ],
 ```
