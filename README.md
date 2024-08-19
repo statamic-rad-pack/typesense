@@ -30,11 +30,6 @@ Add the new driver to the `statamic/search.php` config file:
     // other drivers
 
     'typesense' => [
-'drivers' => [
-
-    // other drivers
-
-    'typesense' => [
         'client' => [
     	    'api_key' => env('TYPESENSE_API_KEY', 'xyz'),
             'nodes' => [
