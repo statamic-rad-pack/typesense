@@ -51,7 +51,7 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  composer require "statamic/cms:${{ matrix.statamic }}" "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench-core:${{ matrix.testbench }}" --no-interaction --no-update
+                  composer require "statamic/cms:${{ matrix.statamic }}" "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
                   composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
             - name: Execute tests
