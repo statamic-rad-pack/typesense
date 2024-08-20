@@ -44,6 +44,17 @@ class TestCase extends AddonTestCase
         $app['config']->set('statamic.search.indexes.typesense_index', [
             'driver' => 'typesense',
             'searchables' => ['collection:pages'],
+            'settings' => [
+                'schema' => [
+                    'fields' => [
+                        [
+                            'type' => 'string',
+                            'name' => 'title',
+                            'sort' => true,
+                        ],
+                    ],
+                ],
+            ],
         ]);
     }
 }
