@@ -92,9 +92,15 @@ class Index extends BaseIndex
     {
         $options['q'] = $query;
 
-        // if we have no query_by then we query on all string fields
         if (! isset($options['query_by'])) {
-            $options['query_by'] = '*';
+            $schema = Arr::get($this->config, 'settings.schema', []);
+
+            // if we have fields in our schema use any strings, otherwise *
+            $options['query_by'] = collect($schema['fields'] ?? [])
+                ->filter(fn ($field) => $field['type'] == 'string')
+                ->map(fn ($field) => $field['name'])
+                ->values()
+                ->join(',') ?: '*';
         }
 
         $searchResults = $this->getOrCreateIndex()->documents->search($options);
