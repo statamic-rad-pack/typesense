@@ -92,9 +92,12 @@ Any additional settings you want to define per index can be included in the `sta
                 ], 
             ],
         ],
+        /* 
+            Pass any of the options from https://typesense.org/docs/26.0/api/search.html#search-parameters
+        */
         'search_options' => [
             /* 
-                Specify a custom sort by order, see the Typesense documentation for more info:
+                eg Specify a custom sort by order, see the Typesense documentation for more info:
                 https://typesense.org/docs/guide/ranking-and-relevance.html#ranking-based-on-relevance-and-popularity
             */
             'sort_by' => '_text_match(buckets: 10):desc,weighted_score:desc',

@@ -104,6 +104,10 @@ class Index extends BaseIndex
         }
 
         foreach (Arr::get($this->config, 'settings.search_options', []) as $handle => $value) {
+            if (in_array($handle, ['query_by', 'q'])) {
+                continue;
+            }
+
             if (! isset($options[$handle])) {
                 $options[$handle] = $value;
             }
