@@ -103,6 +103,12 @@ class Index extends BaseIndex
                 ->join(',') ?: '*';
         }
 
+        foreach (Arr::get($this->config, 'settings.search_options', []) as $handle => $value) {
+            if (! isset($options[$handle])) {
+                $options[$handle] = $value;
+            }
+        }
+
         $searchResults = $this->getOrCreateIndex()->documents->search($options);
 
         return collect($searchResults['hits'] ?? [])
