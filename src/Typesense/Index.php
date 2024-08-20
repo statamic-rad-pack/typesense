@@ -103,9 +103,9 @@ class Index extends BaseIndex
                 ->join(',') ?: '*';
         }
 
-        if (! isset($options['sort_by'])) {
-            if ($sort = Arr::get($this->config, 'settings.search_options.sort_by', false)) {
-                $options['sort_by'] = $sort;
+        foreach (Arr::get($this->config, 'settings.search_options', []) as $handle => $value) {
+            if (! isset($options[$handle])) {
+                $options[$handle] = $value;
             }
         }
 

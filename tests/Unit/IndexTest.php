@@ -108,4 +108,28 @@ class IndexTest extends TestCase
         $this->assertNotContains('entry::test-1', $export);
         $this->assertContains('entry::test-2', $export);
     }
+
+    #[Test]
+    public function it_sorts_by_specified_order()
+    {
+        $entry1 = Facades\Entry::make()
+            ->id('test-2')
+            ->collection('pages')
+            ->data(['title' => 'Entry 1'])
+            ->save();
+
+        $entry2 = tap(Facades\Entry::make()
+            ->id('test-1')
+            ->collection('pages')
+            ->data(['title' => 'Entry 2']))
+            ->save();
+
+        $results = Facades\Search::index('typesense_index')->searchUsingApi('*', ['sort_by' => 'title:asc']);
+
+        $this->assertSame(['Entry 1', 'Entry 2'], collect($results)->pluck('title')->all());
+
+        $results = Facades\Search::index('typesense_index')->searchUsingApi('*', ['sort_by' => 'title:desc']);
+
+        $this->assertSame(['Entry 2', 'Entry 1'], collect($results)->pluck('title')->all());
+    }
 }
