@@ -88,14 +88,23 @@ class Index extends BaseIndex
         return $this;
     }
 
-    public function searchUsingApi($query, array $options = ['query_by' => ['title']]): Collection
+    public function searchUsingApi($query, array $options = []): Collection
     {
         $options['q'] = $query;
+
+        // if we have no query_by then we query on all string fields
+        if (! isset($options['query_by'])) {
+            $options['query_by'] = collect($this->getOrCreateIndex()->retrieve()['fields'] ?? [])
+                ->filter(fn ($field) => $field['type'] == 'string')
+                ->map(fn ($field) => $field['name'])
+                ->join(',');
+        }
 
         $searchResults = $this->getOrCreateIndex()->documents->search($options);
 
         return collect($searchResults['hits'] ?? [])
             ->map(function ($result, $i) {
+                $result['document']['reference'] = $result['document']['id'];
                 $result['document']['search_score'] = (int) ($result['text_match'] ?? 0);
 
                 return $result['document'];
