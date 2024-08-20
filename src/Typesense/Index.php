@@ -103,6 +103,12 @@ class Index extends BaseIndex
                 ->join(',') ?: '*';
         }
 
+        if (! isset($options['sort_by'])) {
+            if ($sort = Arr::get($this->config, 'settings.sort_by', false)) {
+                $options['sort_by'] = $sort;
+            }
+        }
+
         $searchResults = $this->getOrCreateIndex()->documents->search($options);
 
         return collect($searchResults['hits'] ?? [])
