@@ -104,7 +104,7 @@ class Index extends BaseIndex
         }
 
         if (! isset($options['sort_by'])) {
-            if ($sort = Arr::get($this->config, 'settings.sort_by', false)) {
+            if ($sort = Arr::get($this->config, 'settings.query.sort_by', false)) {
                 $options['sort_by'] = $sort;
             }
         }
