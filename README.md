@@ -92,7 +92,7 @@ Any additional settings you want to define per index can be included in the `sta
                 ], 
             ],
         ],
-        'query' => [
+        'search_options' => [
             /* 
                 Specify a custom sort by order, see the Typesense documentation for more info:
                 https://typesense.org/docs/guide/ranking-and-relevance.html#ranking-based-on-relevance-and-popularity
