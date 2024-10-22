@@ -90,7 +90,7 @@ class Index extends BaseIndex
 
     public function searchUsingApi($query, array $options = []): Collection
     {
-        $options['q'] = $query;
+        $options['q'] = $query ?? '';
 
         if (! isset($options['query_by'])) {
             $schema = Arr::get($this->config, 'settings.schema', []);
