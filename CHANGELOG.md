@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.3.0 - 2024-10-23
+
+### What's Changed
+
+* let anything in search_options take precedence, developers beware by @ryanmitchell in https://github.com/statamic-rad-pack/typesense/pull/5
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v1.2.1...v1.3.0
+
 ## v1.2.1 - 2024-10-22
 
 ### What's Changed
