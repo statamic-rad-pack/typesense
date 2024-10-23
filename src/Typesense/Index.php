@@ -104,9 +104,7 @@ class Index extends BaseIndex
         }
 
         foreach (Arr::get($this->config, 'settings.search_options', []) as $handle => $value) {
-            if (! isset($options[$handle])) {
-                $options[$handle] = $value;
-            }
+            $options[$handle] = $value;
         }
 
         $searchResults = $this->getOrCreateIndex()->documents->search($options);
