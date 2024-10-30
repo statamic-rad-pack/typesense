@@ -8,8 +8,8 @@ use Statamic\Search\Documents;
 use Statamic\Search\Index as BaseIndex;
 use Statamic\Support\Arr;
 use Typesense\Client;
-use Typesense\Exceptions\TypesenseClientError;
 use Typesense\Exceptions\ObjectNotFound;
+use Typesense\Exceptions\TypesenseClientError;
 
 class Index extends BaseIndex
 {
