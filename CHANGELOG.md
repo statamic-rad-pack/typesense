@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.3.1 - 2024-10-31
+
+### What's Changed
+
+* Fix errors on creating new entries by @ryanmitchell in https://github.com/statamic-rad-pack/typesense/pull/6
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v1.3.0...v1.3.1
+
 ## v1.3.0 - 2024-10-23
 
 ### What's Changed
