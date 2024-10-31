@@ -8,6 +8,7 @@ use Statamic\Search\Documents;
 use Statamic\Search\Index as BaseIndex;
 use Statamic\Support\Arr;
 use Typesense\Client;
+use Typesense\Exceptions\ObjectNotFound;
 use Typesense\Exceptions\TypesenseClientError;
 
 class Index extends BaseIndex
@@ -53,7 +54,11 @@ class Index extends BaseIndex
 
     public function delete($document)
     {
-        $this->getOrCreateIndex()->documents[$document->getSearchReference()]?->delete();
+        try {
+            $this->getOrCreateIndex()->documents[$document->getSearchReference()]?->delete();
+        } catch (ObjectNotFound $e) {
+            // do nothing, this just prevents errors bubbling up when the document doesnt exist
+        }
     }
 
     public function exists()
