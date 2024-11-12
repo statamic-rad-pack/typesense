@@ -126,10 +126,10 @@ class IndexTest extends TestCase
 
         $results = Facades\Search::index('typesense_index')->searchUsingApi('*', ['sort_by' => 'title:asc']);
 
-        $this->assertSame(['Entry 1', 'Entry 2'], collect($results['raw']['hits'])->pluck('title')->all());
+        $this->assertSame(['Entry 1', 'Entry 2'], collect($results['results'])->pluck('title')->all());
 
         $results = Facades\Search::index('typesense_index')->searchUsingApi('*', ['sort_by' => 'title:desc']);
 
-        $this->assertSame(['Entry 2', 'Entry 1'], collect($results['raw']['hits'])->pluck('title')->all());
+        $this->assertSame(['Entry 2', 'Entry 1'], collect($results['results'])->pluck('title')->all());
     }
 }
