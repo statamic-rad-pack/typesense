@@ -93,7 +93,7 @@ class Index extends BaseIndex
         return $this;
     }
 
-    public function searchUsingApi($query, array $options = []): Collection
+    public function searchUsingApi($query, array $options = []): array
     {
         $options['q'] = $query ?? '';
 
@@ -114,13 +114,16 @@ class Index extends BaseIndex
 
         $searchResults = $this->getOrCreateIndex()->documents->search($options);
 
-        return collect($searchResults['hits'] ?? [])
-            ->map(function ($result, $i) {
-                $result['document']['reference'] = $result['document']['id'];
-                $result['document']['search_score'] = (int) ($result['text_match'] ?? 0);
+        return [
+            'raw' => $searchResults,
+            'results' => collect($searchResults['hits'] ?? [])
+                ->map(function ($result, $i) {
+                    $result['document']['reference'] = $result['document']['id'];
+                    $result['document']['search_score'] = (int) ($result['text_match'] ?? 0);
 
-                return $result['document'];
-            });
+                    return $result['document'];
+                }),
+        ];
     }
 
     public function getOrCreateIndex()
