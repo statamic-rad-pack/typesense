@@ -19,9 +19,63 @@ class Query extends QueryBuilder
         return $this;
     }
 
+    public function whereStatus($string)
+    {
+        return $this->where('status', $string);
+    }
+
+    private function wheresToFilter(array $wheres): string
+    {
+        $filterBy = '';
+
+        foreach ($this->wheres as $where) {
+
+            if ($filterBy != '') {
+                $filterBy .= $where['boolean'] == 'and' ? ' && ' : ' || ';
+            }
+
+            $filterBy .= ' ( ';
+
+            switch ($where['type']) {
+                case 'JsonContains':
+                case 'JsonOverlaps':
+                case 'WhereIn':
+                    $filterBy .= $where['column'].':'.json_encode($where['values']);
+                    break;
+
+                case 'JsonDoesnContain':
+                case 'JsonDoesntOverlap':
+                case 'WhereNotIn':
+                    $filterBy .= $where['column'].':!='.json_encode($where['values']);
+                    break;
+
+                case 'Nested':
+                    $filterBy .= $this->wheresToFilter($where->query['wheres']);
+
+                default:
+                    $value = ! (is_int($where['value']) || is_float($where['value'])) ? '`'.$where['value'].'`' : $where['value'];
+                    $filterBy .= $where['column'].':'.($where['operator'] != '=' ? $where['operator'] : '').$value;
+                    break;
+            }
+
+            $filterBy .= ' ) ';
+
+        }
+
+        return $filterBy;
+    }
+
     private function getApiResults()
     {
-        return $this->index->searchUsingApi($this->query ?? '', ['per_page' => $this->perPage, 'page' => $this->page]);
+        $options = ['per_page' => $this->perPage, 'page' => $this->page];
+
+        $filterBy = $this->wheresToFilter($this->wheres);
+
+        if ($filterBy) {
+            $options['filter_by'] = $filterBy;
+        }
+
+        return $this->index->searchUsingApi($this->query ?? '', $options);
     }
 
     public function forPage($page, $perPage = null)
