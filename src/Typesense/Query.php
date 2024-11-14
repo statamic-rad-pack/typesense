@@ -19,6 +19,11 @@ class Query extends QueryBuilder
         return $this;
     }
 
+    public function whereStatus($string)
+    {
+        return $this->where('status', $string);
+    }
+
     private function getApiResults()
     {
         return $this->index->searchUsingApi($this->query ?? '', ['per_page' => $this->perPage, 'page' => $this->page]);
