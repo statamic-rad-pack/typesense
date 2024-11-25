@@ -114,12 +114,14 @@ class Index extends BaseIndex
 
         $searchResults = $this->getOrCreateIndex()->documents->search($options);
 
+        $total = count($searchResults['hits']);
+
         return [
             'raw' => $searchResults,
             'results' => collect($searchResults['hits'] ?? [])
-                ->map(function ($result, $i) {
+                ->map(function ($result, $i) use ($total) {
                     $result['document']['reference'] = $result['document']['id'];
-                    $result['document']['search_score'] = (int) ($result['text_match'] ?? 0);
+                    $result['document']['search_score'] = Arr::get($this->config, 'settings.maintain_ranking', false) ? ($total - $i) : (int) ($result['text_match'] ?? 0);
 
                     return $result['document'];
                 }),
