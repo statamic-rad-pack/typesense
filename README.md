@@ -102,6 +102,11 @@ Any additional settings you want to define per index can be included in the `sta
             */
             'sort_by' => '_text_match(buckets: 10):desc,weighted_score:desc',
         ],
+        
+        /*
+            Set this to true to maintain the sort score order that Typesense returns 
+        */
+        'maintain_rankings' => false,
     ],
 ],
 ```
