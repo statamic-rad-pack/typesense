@@ -28,10 +28,22 @@ class Query extends QueryBuilder
     {
         $filterBy = '';
 
-        foreach ($this->wheres as $where) {
+        $schemaFields = $this->index->getTypesenseSchemaFields();
 
+        foreach ($this->wheres as $where) {
             if ($filterBy != '') {
                 $filterBy .= $where['boolean'] == 'and' ? ' && ' : ' || ';
+            }
+
+            if ($where['type'] == 'Nested') {
+                $filterBy .= ' ( '.$this->wheresToFilter($where->query['wheres']).' ) ';
+
+                continue;
+            }
+
+            // if its not in our typesense schema, we cant filter on it
+            if (! $schemaType = $schemaFields->get($where['column'])) {
+                continue;
             }
 
             $filterBy .= ' ( ';
@@ -40,21 +52,17 @@ class Query extends QueryBuilder
                 case 'JsonContains':
                 case 'JsonOverlaps':
                 case 'WhereIn':
-                    $filterBy .= $where['column'].':'.json_encode($where['values']);
+                    $filterBy .= $where['column'].':'.$this->transformArrayOfValuesForTypeSense($schemaType, $where['values']);
                     break;
 
                 case 'JsonDoesnContain':
                 case 'JsonDoesntOverlap':
                 case 'WhereNotIn':
-                    $filterBy .= $where['column'].':!='.json_encode($where['values']);
+                    $filterBy .= $where['column'].':!='.$this->transformArrayOfValuesForTypeSense($schemaType, $where['values']);
                     break;
 
-                case 'Nested':
-                    $filterBy .= $this->wheresToFilter($where->query['wheres']);
-
                 default:
-                    $value = ! (is_int($where['value']) || is_float($where['value'])) ? '`'.$where['value'].'`' : $where['value'];
-                    $filterBy .= $where['column'].':'.($where['operator'] != '=' ? $where['operator'] : '').$value;
+                    $filterBy .= $where['column'].':'.($where['operator'] != '=' ? $where['operator'] : '').$this->transformValueForTypeSense($schemaType, $where['value']);
                     break;
             }
 
@@ -63,6 +71,26 @@ class Query extends QueryBuilder
         }
 
         return $filterBy;
+    }
+
+    private function transformArrayOfValuesForTypeSense(string $schemaType, array $values): array
+    {
+        return json_encode(
+            collect($where['values'])
+                ->map(fn ($value) => $this->transformValueForTypeSense($schemaType, $values))
+                ->values()
+                ->all()
+        );
+    }
+
+    private function transformValueForTypeSense(string $schemaType, mixed $value): mixed
+    {
+        return match(str_replace('[]', '', $schemaType)) {
+            'int32', 'int64' => (int) $value,
+            'float' => (float) $value,
+            'bool' => (bool) $value,
+            default => '`'.$value.'`'
+        };
     }
 
     private function getApiResults()
