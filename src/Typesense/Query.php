@@ -85,7 +85,7 @@ class Query extends QueryBuilder
 
     private function transformValueForTypeSense(string $schemaType, mixed $value): mixed
     {
-        return match(str_replace('[]', '', $schemaType)) {
+        return match (str_replace('[]', '', $schemaType)) {
             'int32', 'int64' => (int) $value,
             'float' => (float) $value,
             'bool' => (bool) $value,
