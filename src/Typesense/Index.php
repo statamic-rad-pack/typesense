@@ -160,6 +160,12 @@ class Index extends BaseIndex
         return $collection;
     }
 
+    public function getTypesenseSchemaFields(): Collection
+    {
+        return collect(Arr::get($this->getOrCreateIndex()->retrieve(), 'fields', []))
+            ->pluck('type', 'name');
+    }
+
     private function getDefaultFields(Searchable $entry): array
     {
         return [
