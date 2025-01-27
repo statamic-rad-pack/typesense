@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.4.1 - 2024-11-14
+
+### What's Changed
+
+* Fix whereStatus error by @ryanmitchell in https://github.com/statamic-rad-pack/typesense/pull/9
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v1.4.0...v1.4.1
+
 ## v1.4.0 - 2024-11-12
 
 ### What's Changed
