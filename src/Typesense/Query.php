@@ -62,7 +62,11 @@ class Query extends QueryBuilder
                     break;
 
                 default:
-                    $filterBy .= $where['column'].':'.($where['operator'] != '=' ? $where['operator'] : '').$this->transformValueForTypeSense($schemaType, $where['value']);
+                    if ($where['operator'] == 'like') {
+                        $where['value'] = str_replace(['%"', '"%'], '', $where['value']);
+                    }
+
+                    $filterBy .= $where['column'].':'.(! in_array($where['operator'], ['like']) ? $where['operator'] : '').$this->transformValueForTypeSense($schemaType, $where['value']);
                     break;
             }
 
@@ -73,11 +77,11 @@ class Query extends QueryBuilder
         return $filterBy;
     }
 
-    private function transformArrayOfValuesForTypeSense(string $schemaType, array $values): array
+    private function transformArrayOfValuesForTypeSense(string $schemaType, array $values): string
     {
         return json_encode(
-            collect($where['values'])
-                ->map(fn ($value) => $this->transformValueForTypeSense($schemaType, $values))
+            collect($values)
+                ->map(fn ($value) => ray($value) && $this->transformValueForTypeSense($schemaType, $value))
                 ->values()
                 ->all()
         );
