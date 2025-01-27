@@ -81,7 +81,7 @@ class Query extends QueryBuilder
     {
         return json_encode(
             collect($values)
-                ->map(fn ($value) => ray($value) && $this->transformValueForTypeSense($schemaType, $value))
+                ->map(fn ($value) => $this->transformValueForTypeSense($schemaType, $value))
                 ->values()
                 ->all()
         );
