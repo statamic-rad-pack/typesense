@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.0.0 - 2025-01-27
+
+### What's Changed
+
+* Allow index to maintain the typesense ranking by @ryanmitchell in https://github.com/statamic-rad-pack/typesense/pull/10
+* Allow filtering to work in the CP by @ryanmitchell in https://github.com/statamic-rad-pack/typesense/pull/8
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v1.4.1...v2.0.0
+
 ## v1.4.1 - 2024-11-14
 
 ### What's Changed
