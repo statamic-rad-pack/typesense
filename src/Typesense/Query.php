@@ -28,15 +28,13 @@ class Query extends QueryBuilder
     {
         $filterBy = '';
 
-        $schemaFields = $this->index->getTypesenseSchemaFields();
+        $schemaFields = $this->index->getTypesenseSchemaFields()->pluck('type', 'name');
 
-        foreach ($this->wheres as $where) {
-            if ($filterBy != '') {
-                $filterBy .= $where['boolean'] == 'and' ? ' && ' : ' || ';
-            }
+        foreach ($wheres as $where) {
+            $operator = $filterBy != '' ? ($where['boolean'] == 'and' ? ' && ' : ' || ') : '';
 
             if ($where['type'] == 'Nested') {
-                $filterBy .= ' ( '.$this->wheresToFilter($where->query['wheres']).' ) ';
+                $filterBy .= $operator.' ( '.$this->wheresToFilter($where->query['wheres']).' ) ';
 
                 continue;
             }
@@ -46,18 +44,18 @@ class Query extends QueryBuilder
                 continue;
             }
 
-            $filterBy .= ' ( ';
+            $filterBy .= $operator.' ( ';
 
             switch ($where['type']) {
                 case 'JsonContains':
                 case 'JsonOverlaps':
-                case 'WhereIn':
+                case 'In':
                     $filterBy .= $where['column'].':'.$this->transformArrayOfValuesForTypeSense($schemaType, $where['values']);
                     break;
 
                 case 'JsonDoesnContain':
                 case 'JsonDoesntOverlap':
-                case 'WhereNotIn':
+                case 'NotIn':
                     $filterBy .= $where['column'].':!='.$this->transformArrayOfValuesForTypeSense($schemaType, $where['values']);
                     break;
 
@@ -97,14 +95,35 @@ class Query extends QueryBuilder
         };
     }
 
+    private function ordersToSortBy(array $orders): string
+    {
+        $schemaFields = $this->index->getTypesenseSchemaFields()->keyBy('name');
+
+        return collect($orders)
+            ->filter(function ($order) use ($schemaFields) {
+                if (! $field = $schemaFields->get($order->sort)) {
+                    return false;
+                }
+
+                return $field['sort'] ?? false;
+            })
+            ->take(3) // typesense only allows up to 3 sort columns
+            ->map(function ($order) {
+                return $order->sort.':'.$order->direction;
+            })
+            ->join(',');
+    }
+
     private function getApiResults()
     {
         $options = ['per_page' => $this->perPage, 'page' => $this->page];
 
-        $filterBy = $this->wheresToFilter($this->wheres);
-
-        if ($filterBy) {
+        if ($filterBy = $this->wheresToFilter($this->wheres)) {
             $options['filter_by'] = $filterBy;
+        }
+
+        if ($orderBy = $this->ordersToSortBy($this->orderBys)) {
+            $options['sort_by'] = $orderBy;
         }
 
         return $this->index->searchUsingApi($this->query ?? '', $options);
