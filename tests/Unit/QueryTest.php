@@ -5,8 +5,8 @@ namespace StatamicRadPack\Typesense\Tests\Unit;
 use PHPUnit\Framework\Attributes\Test;
 use Statamic\Facades;
 use Statamic\Query\OrderBy;
-use StatamicRadPack\Typesense\Typesense\Query;
 use StatamicRadPack\Typesense\Tests\TestCase;
+use StatamicRadPack\Typesense\Typesense\Query;
 
 class QueryTest extends TestCase
 {
