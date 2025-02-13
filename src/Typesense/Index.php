@@ -4,6 +4,7 @@ namespace StatamicRadPack\Typesense\Typesense;
 
 use Illuminate\Support\Collection;
 use Statamic\Contracts\Search\Searchable;
+use Statamic\Facades\Blink;
 use Statamic\Search\Documents;
 use Statamic\Search\Index as BaseIndex;
 use Statamic\Support\Arr;
@@ -108,11 +109,7 @@ class Index extends BaseIndex
                 ->join(',') ?: '*';
         }
 
-        foreach (Arr::get($this->config, 'settings.search_options', []) as $handle => $value) {
-            $options[$handle] = $value;
-        }
-
-        $searchResults = $this->getOrCreateIndex()->documents->search($options);
+        $searchResults = $this->getOrCreateIndex()->documents->search(array_merge(Arr::get($this->config, 'settings.search_options', []), $options));
 
         $total = count($searchResults['hits']);
 
@@ -162,8 +159,9 @@ class Index extends BaseIndex
 
     public function getTypesenseSchemaFields(): Collection
     {
-        return collect(Arr::get($this->getOrCreateIndex()->retrieve(), 'fields', []))
-            ->pluck('type', 'name');
+        return Blink::once('statamic-typesense::schema::'.$this->name(), function () {
+            return collect(Arr::get($this->getOrCreateIndex()->retrieve(), 'fields', []));
+        });
     }
 
     private function getDefaultFields(Searchable $entry): array

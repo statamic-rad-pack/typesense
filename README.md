@@ -79,16 +79,17 @@ Any additional settings you want to define per index can be included in the `sta
             'fields' => [
                 [
                   'name'  => 'company_name',
-                  'type'  => 'string'
+                  'type'  => 'string',
                 ],
                 [
                   'name'  => 'num_employees',
-                  'type'  => 'int32'
+                  'type'  => 'int32',
+                  'sort'  => true,
                 ],
                 [
                   'name'  => 'country',
                   'type'  => 'string',
-                  'facet' => true
+                  'facet' => true,
                 ], 
             ],
         ],
