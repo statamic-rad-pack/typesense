@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.1.0 - 2025-02-13
+
+### What's Changed
+
+* Support sorting in the CP by @ryanmitchell in https://github.com/statamic-rad-pack/typesense/pull/11
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v2.0.0...v2.1.0
+
 ## v2.0.0 - 2025-01-27
 
 ### What's Changed
