@@ -98,7 +98,9 @@ class Index extends BaseIndex
     {
         $options['q'] = $query ?? '';
 
-        if (! isset($options['query_by'])) {
+        $options = array_merge(Arr::get($this->config, 'settings.search_options', []), $options);
+
+        if (! array_key_exists('query_by', $options)) {
             $schema = Arr::get($this->config, 'settings.schema', []);
 
             // if we have fields in our schema use any strings, otherwise *
@@ -109,7 +111,7 @@ class Index extends BaseIndex
                 ->join(',') ?: '*';
         }
 
-        $searchResults = $this->getOrCreateIndex()->documents->search(array_merge(Arr::get($this->config, 'settings.search_options', []), $options));
+        $searchResults = $this->getOrCreateIndex()->documents->search($options);
 
         $total = count($searchResults['hits']);
 
