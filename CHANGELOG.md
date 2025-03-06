@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.1.1 - 2025-03-06
+
+### What's Changed
+
+* Fix query_by in search options being overwritten by @ryanmitchell in https://github.com/statamic-rad-pack/typesense/pull/12
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v2.1.0...v2.1.1
+
 ## v2.1.0 - 2025-02-13
 
 ### What's Changed
