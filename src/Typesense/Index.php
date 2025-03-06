@@ -100,7 +100,7 @@ class Index extends BaseIndex
 
         $options = array_merge(Arr::get($this->config, 'settings.search_options', []), $options);
 
-        if (! isset($options['query_by'])) {
+        if (! array_key_exists('query_by', $options)) {
             $schema = Arr::get($this->config, 'settings.schema', []);
 
             // if we have fields in our schema use any strings, otherwise *
