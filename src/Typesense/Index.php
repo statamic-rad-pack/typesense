@@ -111,7 +111,9 @@ class Index extends BaseIndex
                 ->join(',') ?: '*';
         }
 
-        $searchResults = $this->getOrCreateIndex()->documents->search($options);
+        $searchResults = config('statamic-typesense.use_multi_search', false)
+            ? $this->multiSearch($options)
+            : $this->regularSearch($options);
 
         $total = count($searchResults['hits']);
 
@@ -181,5 +183,27 @@ class Index extends BaseIndex
     public function client()
     {
         return $this->client;
+    }
+
+    private function regularSearch(array $options)
+    {
+        return $this->getOrCreateIndex()->documents->search($options);
+    }
+
+    private function multiSearch(array $options)
+    {
+        $this->getOrCreateIndex();
+
+        $searchRequest = [
+            'searches' => [
+                array_merge($options, [
+                    'collection' => $this->name
+                ])
+            ],
+        ];
+
+        $multiSearchResults = $this->client->multiSearch->perform($searchRequest, []);
+
+        return array_shift($multiSearchResults['results']);
     }
 }
