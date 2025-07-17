@@ -111,7 +111,20 @@ class Index extends BaseIndex
                 ->join(',') ?: '*';
         }
 
-        $searchResults = $this->getOrCreateIndex()->documents->search($options);
+        $this->getOrCreateIndex();
+
+        // Using POST multiSearch to avoid potential request size limitations
+        // (regular search uses GET and is limited in size by Typesense)
+        $searchRequest = [
+            'searches' => [
+                array_merge($options, [
+                    'collection' => $this->name,
+                ]),
+            ],
+        ];
+
+        $searchResults = $this->client->multiSearch->perform($searchRequest, []);
+        $searchResults = array_shift($searchResults['results']);
 
         $total = count($searchResults['hits']);
 
