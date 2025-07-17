@@ -118,8 +118,8 @@ class Index extends BaseIndex
         $searchRequest = [
             'searches' => [
                 array_merge($options, [
-                    'collection' => $this->name
-                ])
+                    'collection' => $this->name,
+                ]),
             ],
         ];
 
