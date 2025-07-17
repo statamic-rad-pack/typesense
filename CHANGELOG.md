@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.3.0 - 2025-07-17
+
+### What's Changed
+
+* Use multisearch end point for search operations by @simonerd in https://github.com/statamic-rad-pack/typesense/pull/15
+
+### New Contributors
+
+* @simonerd made their first contribution in https://github.com/statamic-rad-pack/typesense/pull/15
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v2.2.0...v2.3.0
+
 ## v2.2.0 - 2025-05-28
 
 ### What's Changed
