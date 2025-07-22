@@ -116,7 +116,12 @@ class Query extends QueryBuilder
 
     private function getApiResults()
     {
-        $options = ['per_page' => $this->perPage, 'page' => $this->page];
+        $options = [];
+
+        if ($this->page && $this->perPage) {
+            $options['page'] = $this->page;
+            $options['per_page'] = $this->perPage;
+        }
 
         if ($filterBy = $this->wheresToFilter($this->wheres)) {
             $options['filter_by'] = $filterBy;
