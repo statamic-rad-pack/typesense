@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.3.1 - 2025-07-22
+
+### What's Fixed
+
+* Ensure page and per_page options are set in query by @simonerd in https://github.com/statamic-rad-pack/typesense/pull/16
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v2.3.0...v2.3.1
+
 ## v2.3.0 - 2025-07-17
 
 ### What's Changed
