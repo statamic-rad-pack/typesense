@@ -3,6 +3,7 @@
 namespace StatamicRadPack\Typesense\Typesense;
 
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Arr;
 use Statamic\Search\QueryBuilder;
 
 class Query extends QueryBuilder
@@ -116,7 +117,7 @@ class Query extends QueryBuilder
 
     private function getApiResults()
     {
-        $options = [];
+        $options = Arr::get($this->index->config(), 'settings.schema.search_options');
 
         if ($this->page && $this->perPage) {
             $options['page'] = $this->page;
