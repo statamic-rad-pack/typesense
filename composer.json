@@ -10,10 +10,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Ryan Mitchell",
-            "email": "ryan@thoughtcollective.com",
-            "homepage": "https://github.com/ryanmitchell",
-            "role": "Developer"
+            "name": "Statamic Rad Pack",
+            "homepage": "https://statamic.com/creators/rad-pack"
         }
     ],
     "require": {
