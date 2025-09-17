@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.3.2 - 2025-09-17
+
+### What's Changed
+
+* Correct nested where variables by @ryanmitchell in https://github.com/statamic-rad-pack/typesense/pull/20
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v2.3.1...v2.3.2
+
 ## v2.3.1 - 2025-07-22
 
 ### What's Fixed
