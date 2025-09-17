@@ -44,6 +44,12 @@ class Query extends QueryBuilder
                 continue;
             }
 
+            $is_null_column_name = 'is_'.$where['column'].'_null';
+            if ($where['type'] === 'Null' && !$schemaFields->get($is_null_column_name)) {
+                // Can we give the user a hint without throwing an exception that his query is not working as intended?
+                continue;
+            }
+
             $filterBy .= $operator.' ( ';
 
             switch ($where['type']) {
@@ -60,7 +66,7 @@ class Query extends QueryBuilder
                     break;
 
                 case 'Null':
-                    $filterBy .= 'is_'.$where['column'].'_null:="true"';
+                    $filterBy .= $is_null_column_name.':="true"';
                     break;
 
                 default:
