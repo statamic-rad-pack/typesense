@@ -59,6 +59,10 @@ class Query extends QueryBuilder
                     $filterBy .= $where['column'].':!='.$this->transformArrayOfValuesForTypeSense($schemaType, $where['values']);
                     break;
 
+                case 'Null':
+                    $filterBy .= 'is_'.$where['column'].'_null:="true"';
+                    break;
+
                 default:
                     if ($where['operator'] == 'like') {
                         $where['value'] = str_replace(['%"', '"%'], '', $where['value']);

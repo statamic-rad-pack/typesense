@@ -111,3 +111,7 @@ Any additional settings you want to define per index can be included in the `sta
     ],
 ],
 ```
+
+### Querying for a field with value `null`
+
+[Typesense cannot filter documents by a field thats value is `null`](https://typesense.org/docs/guide/tips-for-searching-common-types-of-data.html#searching-for-null-or-empty-values). Therefore, if you build a query with `whereNull` or similar, this addon checks if a typesense collection field `is_{handle}_null` has the value `"true"`. So, if you want for example to get all results where the `content` is `null`, you need to add a field `is_content_null` to your schema in `search.php` which is filled via a transformer.
