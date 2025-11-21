@@ -73,7 +73,7 @@ class Index extends BaseIndex
         }
     }
 
-    protected function insertDocuments(Documents $documents)
+    public function insertDocuments(Documents $documents)
     {
         $this->getOrCreateIndex()->documents->import($documents->all(), ['action' => 'upsert']);
     }
