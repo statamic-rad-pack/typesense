@@ -10,18 +10,16 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Ryan Mitchell",
-            "email": "ryan@thoughtcollective.com",
-            "homepage": "https://github.com/ryanmitchell",
-            "role": "Developer"
+            "name": "Statamic Rad Pack",
+            "homepage": "https://statamic.com/creators/rad-pack"
         }
     ],
     "require": {
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.3",
         "http-interop/http-factory-guzzle": "^1.0",
-        "illuminate/support": "^10.0|^11.0|^12.0",
-        "statamic/cms": "^5.38",
+        "illuminate/support": "^11.0 || ^12.0",
+        "statamic/cms": "^5.38 || ^6.0",
         "typesense/typesense-php": "^4.9"
     },
     "require-dev": {
