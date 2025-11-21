@@ -33,24 +33,7 @@ class Index extends BaseIndex
         return $this->insertMultiple(collect([$document]));
     }
 
-    public function insertMultiple($documents)
     {
-        $documents
-            ->chunk(config('statamic-typesense.insert_chunk_size', 100))
-            ->each(function ($documents, $index) {
-                $documents = $documents
-                    ->filter()
-                    ->map(fn ($document) => array_merge(
-                        $this->searchables()->fields($document),
-                        $this->getDefaultFields($document),
-                    ))
-                    ->values()
-                    ->toArray();
-
-                $this->insertDocuments(new Documents($documents));
-            });
-
-        return $this;
     }
 
     public function delete($document)

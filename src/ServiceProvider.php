@@ -11,16 +11,6 @@ class ServiceProvider extends AddonServiceProvider
 {
     public function bootAddon()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/statamic-typesense.php', 'statamic-typesense');
-
-        if ($this->app->runningInConsole()) {
-
-            $this->publishes([
-                __DIR__.'/../config/statamic-typesense.php' => config_path('statamic-typesense.php'),
-            ], 'statamic-typesense-config');
-
-        }
-
         Search::extend('typesense', function (Application $app, array $config, $name, $locale = null) {
             $client = new Client($config['client'] ?? []);
 
