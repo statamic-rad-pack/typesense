@@ -33,24 +33,12 @@ class Index extends BaseIndex
         return $this->insertMultiple(collect([$document]));
     }
 
-    public function insertMultiple($documents)
+    public function fields(Searchable $searchable)
     {
-        $documents
-            ->chunk(config('statamic-typesense.insert_chunk_size', 100))
-            ->each(function ($documents, $index) {
-                $documents = $documents
-                    ->filter()
-                    ->map(fn ($document) => array_merge(
-                        $this->searchables()->fields($document),
-                        $this->getDefaultFields($document),
-                    ))
-                    ->values()
-                    ->toArray();
-
-                $this->insertDocuments(new Documents($documents));
-            });
-
-        return $this;
+        return array_merge(
+            $this->searchables()->fields($searchable),
+            $this->getDefaultFields($searchable)
+        );
     }
 
     public function delete($document)
@@ -73,7 +61,7 @@ class Index extends BaseIndex
         }
     }
 
-    protected function insertDocuments(Documents $documents)
+    public function insertDocuments(Documents $documents)
     {
         $this->getOrCreateIndex()->documents->import($documents->all(), ['action' => 'upsert']);
     }
