@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.4.0 - 2026-01-08
+
+### What's Changed
+
+* Push typesense-php version to ^5.1 by @bastihilger in https://github.com/statamic-rad-pack/typesense/pull/22
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v2.3.2...v2.4.0
+
 ## v2.3.2 - 2025-09-17
 
 ### What's Changed
