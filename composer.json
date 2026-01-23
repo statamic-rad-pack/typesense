@@ -19,7 +19,7 @@
         "guzzlehttp/guzzle": "^7.3",
         "http-interop/http-factory-guzzle": "^1.0",
         "illuminate/support": "^12.0",
-        "statamic/cms": "^6.0",
+        "statamic/cms": "^6.0.0-beta.4",
         "typesense/typesense-php": "^4.9"
     },
     "require-dev": {
@@ -58,5 +58,7 @@
             "name": "Typesense",
             "description": "Typesense search driver for Statamic"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
