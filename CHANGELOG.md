@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## v3.0.0 - 2026-01-29
+
+### What's Changed
+
+* Statamic 6: Search indexing improvements by @duncanmcclean in https://github.com/statamic-rad-pack/typesense/pull/24
+* Support Statamic 6 by @ryanmitchell in https://github.com/statamic-rad-pack/typesense/pull/18
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v2.4.0...v3.0.0
+
 ## v2.4.0 - 2026-01-08
 
 ### What's Changed
