@@ -34,7 +34,7 @@ class Query extends QueryBuilder
             $operator = $filterBy != '' ? ($where['boolean'] == 'and' ? ' && ' : ' || ') : '';
 
             if ($where['type'] == 'Nested') {
-                $filterBy .= $operator.' ( '.$this->wheresToFilter($where->query['wheres']).' ) ';
+                $filterBy .= $operator.' ( '.$this->wheresToFilter($where['query']->wheres).' ) ';
 
                 continue;
             }
