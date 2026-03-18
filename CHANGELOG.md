@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v3.1.0 - 2026-03-18
+
+### What's Changed
+
+* Supports Laravel 13 by @duncanmcclean in https://github.com/statamic-rad-pack/typesense/pull/25
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v3.0.0...v3.1.0
+
 ## v3.0.0 - 2026-01-29
 
 ### What's Changed
