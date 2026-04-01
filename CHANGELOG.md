@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v3.2.0 - 2026-04-01
+
+### What's Changed
+
+* Surface highlight by @ryanmitchell in https://github.com/statamic-rad-pack/typesense/pull/27
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v3.1.0...v3.2.0
+
 ## v3.1.0 - 2026-03-18
 
 ### What's Changed
