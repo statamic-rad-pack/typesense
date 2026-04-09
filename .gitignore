@@ -1,6 +1,7 @@
-.idea
-/vendor
 .DS_Store
-composer.lock
+.idea
 .php-cs-fixer.cache
+.phpunit.cache
 build/report.junit.xml
+composer.lock
+/vendor
