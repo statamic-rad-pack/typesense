@@ -7,6 +7,7 @@ use Statamic\Contracts\Search\Searchable;
 use Statamic\Facades\Blink;
 use Statamic\Search\Documents;
 use Statamic\Search\Index as BaseIndex;
+use Statamic\Search\Result;
 use Statamic\Support\Arr;
 use Typesense\Client;
 use Typesense\Exceptions\ObjectNotFound;
@@ -195,5 +196,15 @@ class Index extends BaseIndex
     public function client()
     {
         return $this->client;
+    }
+
+    public function extraAugmentedResultData(Result $result)
+    {
+
+        if (is_null($highlight = Arr::get($result->getRawResult(), 'search_highlight')) && ! empty($highlight)) {
+            return [];
+        }
+
+        return ['search_highlight' => Arr::first($highlight)['snippet']];
     }
 }
