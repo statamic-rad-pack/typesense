@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.5.0 - 2026-04-09
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v2.4.0...v2.5.0
+
 ## v3.2.0 - 2026-04-01
 
 ### What's Changed
