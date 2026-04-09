@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.5.1 - 2026-04-09
+
+### What's Changed
+
+* Return the search highlight by @edalzell in https://github.com/statamic-rad-pack/typesense/pull/28
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v2.4.0...v2.5.1
+
 ## v2.5.0 - 2026-04-09
 
 **Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v2.4.0...v2.5.0
