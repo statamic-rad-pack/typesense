@@ -132,4 +132,35 @@ class IndexTest extends TestCase
 
         $this->assertSame(['Entry 2', 'Entry 1'], collect($results['results'])->pluck('title')->all());
     }
+
+    #[Test]
+    public function it_adds_search_highlight()
+    {
+        $entry1 = Facades\Entry::make()
+            ->id('test-2')
+            ->collection('pages')
+            ->data(['title' => 'Entry 1'])
+            ->save();
+
+        $results = Facades\Search::index('typesense_index')->searchUsingApi('Entry 1');
+
+        $this->assertEquals('<mark>Entry</mark> <mark>1</mark>', $results['results'][0]['search_highlight']['title']['snippet']);
+    }
+
+    #[Test]
+    public function it_augments_with_search_highlight()
+    {
+        $entry1 = Facades\Entry::make()
+            ->id('test-2')
+            ->collection('pages')
+            ->data(['title' => 'Entry 1'])
+            ->save();
+
+        $index = Facades\Search::index('typesense_index');
+        $result = $index->search('Entry 1')->get()->first();
+
+        $augmentedData = $index->extraAugmentedResultData($result);
+
+        $this->assertSame(['search_highlight' => '<mark>Entry</mark> <mark>1</mark>'], $augmentedData);
+    }
 }

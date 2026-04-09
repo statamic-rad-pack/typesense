@@ -12,7 +12,7 @@ jobs:
 
         services:
           typesense:
-            image: typesense/typesense:27.0.rc21
+            image: typesense/typesense:30.1
             ports:
               - 8108:8108/tcp
             volumes:
@@ -23,36 +23,37 @@ jobs:
               TYPESENSE_ENABLE_CORS: true
 
         strategy:
-            fail-fast: false
-            matrix:
-                os: [ubuntu-latest]
-                php: [8.2, 8.3]
-                laravel: [10.*, 11.*, 12.*]
-                statamic: [5.*]
-                dependency-version: [prefer-stable]
+          fail-fast: false
+          matrix:
+            os: [ubuntu-latest]
+            php: [8.2, 8.3]
+            laravel: [10.*, 11.*, 12.*]
+            statamic: [5.*]
+            dependency-version: [prefer-stable]
 
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - S${{ matrix.statamic }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
+          - name: Checkout code
+            uses: actions/checkout@v3
 
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: ${{ matrix.php }}
-                  extensions: fileinfo, dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
-                  coverage: none
+          - name: Setup PHP
+            uses: shivammathur/setup-php@v2
+            with:
+              php-version: ${{ matrix.php }}
+              extensions: fileinfo, dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+              coverage: none
+              ini-values: zend.assertions=-1
 
-            - name: Setup Problem Matches
-              run: |
-                  echo "::add-matcher::${{ runner.tool_cache }}/php.json"
-                  echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+          - name: Setup Problem Matches
+            run: |
+              echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+              echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-            - name: Install dependencies
-              run: |
-                  composer require "statamic/cms:${{ matrix.statamic }}" "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
-                  composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
+          - name: Install dependencies
+            run: |
+              composer require "statamic/cms:${{ matrix.statamic }}" "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
+              composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
-            - name: Execute tests
-              run: vendor/bin/phpunit
+          - name: Execute tests
+            run: vendor/bin/phpunit
