@@ -48,6 +48,11 @@
         "allow-plugins": {
             "pixelfear/composer-dist-plugin": true,
             "php-http/discovery": true
+        },
+        "policy": {
+            "advisories": {
+                "ignore-id": ["PKSA-mdq4-51ck-6kdq", "PKSA-8qx3-n5y5-vvnd", "PKSA-w7xr-vk7n-rstm"]
+            }
         }
     },
     "extra": {
