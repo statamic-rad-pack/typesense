@@ -20,7 +20,7 @@
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.3",
         "http-interop/http-factory-guzzle": "^1.0",
-        "illuminate/support": "^10.0|^11.0|^12.0",
+        "illuminate/support": "^12.40",
         "statamic/cms": "^5.38",
         "typesense/typesense-php": "^5.1"
     },
