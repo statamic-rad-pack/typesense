@@ -20,7 +20,7 @@
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.3",
         "http-interop/http-factory-guzzle": "^1.0",
-        "illuminate/support": "^10.0|^11.0|^12.0",
+        "illuminate/support": "^11.0|^12.0",
         "statamic/cms": "^5.38",
         "typesense/typesense-php": "^5.1"
     },
@@ -48,11 +48,6 @@
         "allow-plugins": {
             "pixelfear/composer-dist-plugin": true,
             "php-http/discovery": true
-        },
-        "policy": {
-            "advisories": {
-                "ignore-id": ["PKSA-mdq4-51ck-6kdq", "PKSA-8qx3-n5y5-vvnd", "PKSA-w7xr-vk7n-rstm"]
-            }
         }
     },
     "extra": {
