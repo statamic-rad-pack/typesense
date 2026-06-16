@@ -205,6 +205,6 @@ class Index extends BaseIndex
             return [];
         }
 
-        return ['search_highlight' => Arr::first($highlight)['snippet']];
+        return ['search_highlight' => Arr::get(Arr::first($highlight), 'snippet')];
     }
 }
