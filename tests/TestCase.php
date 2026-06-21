@@ -15,7 +15,6 @@ class TestCase extends AddonTestCase
     {
         parent::resolveApplicationConfiguration($app);
 
-        // add typesense driver
         $app['config']->set('statamic.search.drivers.typesense', [
             'client' => [
                 'api_key' => env('TYPESENSE_API_KEY', 'xyz'),
@@ -40,7 +39,10 @@ class TestCase extends AddonTestCase
             ],
         ]);
 
-        // add typesense index
+        $app['config']->set('statamic.search.indexes.cp', [
+            'driver' => 'null',
+        ]);
+
         $app['config']->set('statamic.search.indexes.typesense_index', [
             'driver' => 'typesense',
             'searchables' => ['collection:pages'],

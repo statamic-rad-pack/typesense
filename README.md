@@ -6,7 +6,7 @@ This addon provides a [Typesense](https://typesense.org) search driver for Stata
 
 * PHP 8.2+
 * Laravel 10+
-* Statamic 5
+* Statamic 6
 * Typesense 0.2+
 
 ### Installation

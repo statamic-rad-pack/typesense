@@ -2,6 +2,51 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.5.1 - 2026-04-09
+
+### What's Changed
+
+* Return the search highlight by @edalzell in https://github.com/statamic-rad-pack/typesense/pull/28
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v2.4.0...v2.5.1
+
+## v2.5.0 - 2026-04-09
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v2.4.0...v2.5.0
+
+## v3.2.0 - 2026-04-01
+
+### What's Changed
+
+* Surface highlight by @ryanmitchell in https://github.com/statamic-rad-pack/typesense/pull/27
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v3.1.0...v3.2.0
+
+## v3.1.0 - 2026-03-18
+
+### What's Changed
+
+* Supports Laravel 13 by @duncanmcclean in https://github.com/statamic-rad-pack/typesense/pull/25
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v3.0.0...v3.1.0
+
+## v3.0.0 - 2026-01-29
+
+### What's Changed
+
+* Statamic 6: Search indexing improvements by @duncanmcclean in https://github.com/statamic-rad-pack/typesense/pull/24
+* Support Statamic 6 by @ryanmitchell in https://github.com/statamic-rad-pack/typesense/pull/18
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v2.4.0...v3.0.0
+
+## v2.4.0 - 2026-01-08
+
+### What's Changed
+
+* Push typesense-php version to ^5.1 by @bastihilger in https://github.com/statamic-rad-pack/typesense/pull/22
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v2.3.2...v2.4.0
+
 ## v2.3.2 - 2025-09-17
 
 ### What's Changed
