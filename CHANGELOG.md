@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## v3.2.1 - 2026-07-08
+
+### What's Changed
+
+* Update Statamic version from 5 to 6 in README by @Jamesking56 in https://github.com/statamic-rad-pack/typesense/pull/30
+* Upmerge latest v2 by @edalzell in https://github.com/statamic-rad-pack/typesense/pull/32
+* Ensure search highlight is passed back to Statamic by @edalzell in https://github.com/statamic-rad-pack/typesense/pull/29
+
+### New Contributors
+
+* @Jamesking56 made their first contribution in https://github.com/statamic-rad-pack/typesense/pull/30
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v2.5.0...v3.2.1
+
 ## v2.5.1 - 2026-04-09
 
 ### What's Changed
