@@ -3,13 +3,11 @@
 namespace StatamicRadPack\Typesense\Typesense;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use Statamic\Contracts\Search\Searchable;
 use Statamic\Facades\Blink;
 use Statamic\Search\Documents;
 use Statamic\Search\Index as BaseIndex;
 use Statamic\Support\Arr;
-use StatamicRadPack\Typesense\Exceptions\ImportFailedException;
 use Typesense\Client;
 use Typesense\Exceptions\ObjectNotFound;
 use Typesense\Exceptions\TypesenseClientError;
@@ -77,27 +75,7 @@ class Index extends BaseIndex
 
     protected function insertDocuments(Documents $documents)
     {
-        $results = $this->getOrCreateIndex()->documents->import($documents->all(), ['action' => 'upsert', 'return_id' => true]);
-
-        $failures = collect($results)->filter(fn ($result) => ! ($result['success'] ?? false))->values();
-
-        if ($failures->isEmpty()) {
-            return;
-        }
-
-        if (config('statamic-typesense.throw_on_import_failure', false)) {
-            throw new ImportFailedException($this->name, $failures->all());
-        }
-
-        Log::warning(sprintf('Typesense rejected %d document(s) during import into the [%s] index.', $failures->count(), $this->name), [
-            'failures' => $failures
-                ->take(10)
-                ->map(fn ($failure) => [
-                    'id' => $failure['id'] ?? null,
-                    'error' => $failure['error'] ?? null,
-                ])
-                ->all(),
-        ]);
+        $this->getOrCreateIndex()->documents->import($documents->all(), ['action' => 'upsert']);
     }
 
     protected function deleteIndex()
