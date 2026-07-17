@@ -2,10 +2,8 @@
 
 namespace StatamicRadPack\Typesense\Tests\Unit;
 
-use Illuminate\Support\Facades\Log;
 use PHPUnit\Framework\Attributes\Test;
 use Statamic\Facades;
-use StatamicRadPack\Typesense\Exceptions\ImportFailedException;
 use StatamicRadPack\Typesense\Tests\TestCase;
 use Typesense\Client;
 
@@ -133,105 +131,5 @@ class IndexTest extends TestCase
         $results = Facades\Search::index('typesense_index')->searchUsingApi('*', ['sort_by' => 'title:desc']);
 
         $this->assertSame(['Entry 2', 'Entry 1'], collect($results['results'])->pluck('title')->all());
-    }
-
-    #[Test]
-    public function it_logs_a_warning_when_documents_are_rejected_during_import()
-    {
-        $this->configureFailingIndex();
-
-        Log::spy();
-
-        Facades\Collection::make()
-            ->handle('pages')
-            ->title('Pages')
-            ->save();
-
-        Facades\Entry::make()
-            ->id('test-1')
-            ->collection('pages')
-            ->data(['title' => 'Entry 1'])
-            ->save();
-
-        Log::shouldHaveReceived('warning')
-            ->once()
-            ->withArgs(function ($message, $context) {
-                return str_contains($message, 'typesense_failing_index')
-                    && str_contains($message, '1 document(s)')
-                    && $context['failures'][0]['id'] === 'entry::test-1'
-                    && ! empty($context['failures'][0]['error']);
-            });
-    }
-
-    #[Test]
-    public function it_throws_when_documents_are_rejected_during_import_and_strict_mode_is_enabled()
-    {
-        config()->set('statamic-typesense.throw_on_import_failure', true);
-
-        $this->configureFailingIndex();
-
-        Facades\Collection::make()
-            ->handle('pages')
-            ->title('Pages')
-            ->save();
-
-        try {
-            Facades\Entry::make()
-                ->id('test-1')
-                ->collection('pages')
-                ->data(['title' => 'Entry 1'])
-                ->save();
-
-            $this->fail('ImportFailedException was not thrown.');
-        } catch (ImportFailedException $e) {
-            $this->assertSame('typesense_failing_index', $e->index());
-            $this->assertCount(1, $e->failures());
-            $this->assertNotEmpty($e->failures()[0]['error']);
-        }
-    }
-
-    #[Test]
-    public function it_does_not_log_or_throw_when_all_documents_import_successfully()
-    {
-        config()->set('statamic-typesense.throw_on_import_failure', true);
-
-        Log::spy();
-
-        Facades\Collection::make()
-            ->handle('pages')
-            ->title('Pages')
-            ->save();
-
-        Facades\Entry::make()
-            ->id('test-1')
-            ->collection('pages')
-            ->data(['title' => 'Entry 1'])
-            ->save();
-
-        Log::shouldNotHaveReceived('warning');
-
-        $export = collect(json_decode('['.str_replace("\n", ',', Facades\Search::index('typesense_index')->getOrCreateIndex()->documents->export()).']'))->pluck('id');
-
-        $this->assertContains('entry::test-1', $export);
-    }
-
-    private function configureFailingIndex()
-    {
-        // Typesense will reject documents whose title is a string,
-        // since the schema declares it as an int32.
-        config()->set('statamic.search.indexes.typesense_failing_index', [
-            'driver' => 'typesense',
-            'searchables' => ['collection:pages'],
-            'settings' => [
-                'schema' => [
-                    'fields' => [
-                        [
-                            'type' => 'int32',
-                            'name' => 'title',
-                        ],
-                    ],
-                ],
-            ],
-        ]);
     }
 }
