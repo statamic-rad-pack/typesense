@@ -11,7 +11,6 @@ use Statamic\Search\Result;
 use Statamic\Support\Arr;
 use Typesense\Client;
 use Typesense\Exceptions\ObjectNotFound;
-use Typesense\Exceptions\TypesenseClientError;
 
 class Index extends BaseIndex
 {
@@ -69,7 +68,14 @@ class Index extends BaseIndex
 
     protected function deleteIndex()
     {
-        $this->getOrCreateIndex()->delete();
+        $collection = $this->getOrCreateIndex();
+
+        $collection->delete();
+
+        // The client caches this Collection instance, and deleting through it doesn't
+        // clear its exists flag. Without this, update() would delete the collection and
+        // then skip recreating it, leaving every subsequent import with nowhere to go.
+        $collection->setExists(false);
     }
 
     public function update()
@@ -134,16 +140,12 @@ class Index extends BaseIndex
     {
         $collection = $this->client->getCollections()->{$this->name};
 
-        // Determine if the collection exists in Typesense...
-        try {
-            $collection->retrieve();
-
-            // No error means this collection exists on the server...
-            $collection->setExists(true);
-
+        // The client hands back the same Collection instance for a given name and
+        // remembers whether it exists, so this only asks Typesense the first time.
+        // Calling retrieve() directly would repeat that request on every insert,
+        // delete, count and search.
+        if ($collection->exists()) {
             return $collection;
-        } catch (TypesenseClientError $e) {
-
         }
 
         $schema = Arr::get($this->config, 'settings.schema', []);
