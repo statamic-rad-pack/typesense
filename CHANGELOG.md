@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v3.2.2 - 2026-08-05
+
+### What's Changed
+
+* Stop re-fetching the collection on every operation by @edalzell in https://github.com/statamic-rad-pack/typesense/pull/35
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v3.2.1...v3.2.2
+
 ## v3.2.1 - 2026-07-08
 
 ### What's Changed
