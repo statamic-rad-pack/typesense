@@ -11,6 +11,7 @@ use Statamic\Search\Result;
 use Statamic\Support\Arr;
 use Typesense\Client;
 use Typesense\Exceptions\ObjectNotFound;
+use Typesense\Exceptions\TypesenseClientError;
 
 class Index extends BaseIndex
 {
@@ -120,6 +121,12 @@ class Index extends BaseIndex
 
         $searchResults = $this->client->multiSearch->perform($searchRequest, []);
         $searchResults = array_shift($searchResults['results']);
+
+        // Typesense answers with a 200 even when an individual search failed, so the error
+        // only shows up in the result itself.
+        if (! is_null($error = Arr::get($searchResults, 'error'))) {
+            throw new TypesenseClientError($error, (int) Arr::get($searchResults, 'code', 0));
+        }
 
         $total = count($searchResults['hits']);
 
