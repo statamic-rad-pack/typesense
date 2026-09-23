@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v3.3.0 - 2026-09-23
+
+### What's Changed
+
+* Surface per-search multi_search errors by @edalzell in https://github.com/statamic-rad-pack/typesense/pull/38
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v3.2.2...v3.3.0
+
 ## v3.2.2 - 2026-08-05
 
 ### What's Changed
