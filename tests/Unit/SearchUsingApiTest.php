@@ -7,10 +7,7 @@ use PHPUnit\Framework\Attributes\Test;
 use StatamicRadPack\Typesense\Tests\TestCase;
 use StatamicRadPack\Typesense\Typesense\Index;
 use Typesense\ApiCall;
-use Typesense\Client;
-use Typesense\Collections;
 use Typesense\Exceptions\TypesenseClientError;
-use Typesense\MultiSearch;
 
 class SearchUsingApiTest extends TestCase
 {
@@ -27,15 +24,7 @@ class SearchUsingApiTest extends TestCase
             ->once()
             ->andReturn(['results' => [$result]]);
 
-        $client = new Client([
-            'api_key' => 'xyz',
-            'nodes' => [['host' => 'localhost', 'port' => '8108', 'path' => '', 'protocol' => 'http']],
-        ]);
-
-        $client->collections = new Collections($apiCall);
-        $client->multiSearch = new MultiSearch($apiCall);
-
-        return new Index($client, $name, []);
+        return $this->indexWithMockedApi($apiCall, $name);
     }
 
     #[Test]

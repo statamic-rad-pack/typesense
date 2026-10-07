@@ -4,6 +4,11 @@ namespace StatamicRadPack\Typesense\Tests;
 
 use Statamic\Testing\AddonTestCase;
 use StatamicRadPack\Typesense\ServiceProvider;
+use StatamicRadPack\Typesense\Typesense\Index;
+use Typesense\ApiCall;
+use Typesense\Client;
+use Typesense\Collections;
+use Typesense\MultiSearch;
 
 class TestCase extends AddonTestCase
 {
@@ -58,5 +63,22 @@ class TestCase extends AddonTestCase
                 ],
             ],
         ]);
+    }
+
+    /**
+     * Build an Index whose requests go through a mocked HTTP layer, so tests can assert
+     * on the requests the driver actually makes without a running Typesense server.
+     */
+    protected function indexWithMockedApi(ApiCall $apiCall, string $name = 'test'): Index
+    {
+        $client = new Client([
+            'api_key' => 'xyz',
+            'nodes' => [['host' => 'localhost', 'port' => '8108', 'path' => '', 'protocol' => 'http']],
+        ]);
+
+        $client->collections = new Collections($apiCall);
+        $client->multiSearch = new MultiSearch($apiCall);
+
+        return new Index($client, $name, []);
     }
 }
