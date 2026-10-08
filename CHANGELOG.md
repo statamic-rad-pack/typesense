@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v3.3.1 - 2026-10-08
+
+### What's Changed
+
+* Make exists() a read-only check by @edalzell in https://github.com/statamic-rad-pack/typesense/pull/39
+
+**Full Changelog**: https://github.com/statamic-rad-pack/typesense/compare/v3.3.0...v3.3.1
+
 ## v3.3.0 - 2026-09-23
 
 ### What's Changed
