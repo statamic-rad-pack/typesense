@@ -10,6 +10,7 @@ use Statamic\Search\Index as BaseIndex;
 use Statamic\Search\Result;
 use Statamic\Support\Arr;
 use Typesense\Client;
+use Typesense\Collection as TypesenseCollection;
 use Typesense\Exceptions\ObjectNotFound;
 use Typesense\Exceptions\TypesenseClientError;
 
@@ -45,21 +46,15 @@ class Index extends BaseIndex
     public function delete($document)
     {
         try {
-            $this->getOrCreateIndex()->documents[$document->getSearchReference()]?->delete();
+            $this->collection()->documents[$document->getSearchReference()]?->delete();
         } catch (ObjectNotFound $e) {
-            // do nothing, this just prevents errors bubbling up when the document doesnt exist
+            // Nothing to do when the document, or the whole collection, isn't there.
         }
     }
 
     public function exists()
     {
-        try {
-            $this->getOrCreateIndex();
-
-            return true;
-        } catch (\Throwable $e) {
-            return false;
-        }
+        return (bool) $this->collection()->exists();
     }
 
     public function insertDocuments(Documents $documents)
@@ -69,7 +64,9 @@ class Index extends BaseIndex
 
     protected function deleteIndex()
     {
-        $collection = $this->getOrCreateIndex();
+        if (! ($collection = $this->collection())->exists()) {
+            return;
+        }
 
         $collection->delete();
 
@@ -107,7 +104,9 @@ class Index extends BaseIndex
                 ->join(',') ?: '*';
         }
 
-        $this->getOrCreateIndex();
+        if (! $this->exists()) {
+            return ['raw' => [], 'results' => collect()];
+        }
 
         // Using POST multiSearch to avoid potential request size limitations
         // (regular search uses GET and is limited in size by Typesense)
@@ -145,7 +144,7 @@ class Index extends BaseIndex
 
     public function getOrCreateIndex()
     {
-        $collection = $this->client->getCollections()->{$this->name};
+        $collection = $this->collection();
 
         // The client hands back the same Collection instance for a given name and
         // remembers whether it exists, so this only asks Typesense the first time.
@@ -174,8 +173,13 @@ class Index extends BaseIndex
     public function getTypesenseSchemaFields(): Collection
     {
         return Blink::once('statamic-typesense::schema::'.$this->name(), function () {
-            return collect(Arr::get($this->getOrCreateIndex()->retrieve(), 'fields', []));
+            return $this->exists() ? collect(Arr::get($this->collection()->retrieve(), 'fields', [])) : collect();
         });
+    }
+
+    private function collection(): TypesenseCollection
+    {
+        return $this->client->getCollections()->{$this->name};
     }
 
     private function getDefaultFields(Searchable $entry): array
@@ -187,7 +191,7 @@ class Index extends BaseIndex
 
     public function getCount()
     {
-        return $this->getOrCreateIndex()->retrieve()['num_documents'] ?? 0;
+        return $this->exists() ? ($this->collection()->retrieve()['num_documents'] ?? 0) : 0;
     }
 
     public function client()

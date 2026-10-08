@@ -5,30 +5,11 @@ namespace StatamicRadPack\Typesense\Tests\Unit;
 use Mockery;
 use PHPUnit\Framework\Attributes\Test;
 use StatamicRadPack\Typesense\Tests\TestCase;
-use StatamicRadPack\Typesense\Typesense\Index;
 use Typesense\ApiCall;
-use Typesense\Client;
-use Typesense\Collections;
 use Typesense\Exceptions\ObjectNotFound;
 
 class GetOrCreateIndexTest extends TestCase
 {
-    /**
-     * Build an Index whose collection lookups go through a mocked HTTP layer, so we can
-     * count the requests the driver actually makes.
-     */
-    private function indexWithMockedApi(ApiCall $apiCall, string $name = 'test'): Index
-    {
-        $client = new Client([
-            'api_key' => 'xyz',
-            'nodes' => [['host' => 'localhost', 'port' => '8108', 'path' => '', 'protocol' => 'http']],
-        ]);
-
-        $client->collections = new Collections($apiCall);
-
-        return new Index($client, $name, []);
-    }
-
     #[Test]
     public function it_only_looks_the_collection_up_once()
     {
